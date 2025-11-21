@@ -1,0 +1,35 @@
+<div class="unidades-page">
+  <div class="page-header">
+    <h1>Unidades Organizacionales</h1>
+    <p-button
+      label="Crear Unidad"
+      icon="pi pi-plus"
+      (onClick)="openCreateUnidadModal()"
+    ></p-button>
+  </div>
+
+  <p-table #unidadesTable [value]="unidades()" [paginator]="true" [rows]="10">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Id</th>
+        <th>Nombre</th>
+        <th>Tipo</th>
+        <th>Unidad Padre</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-unidad>
+      <tr>
+        <td>{{ unidad.id }}</td>
+        <td>{{ unidad.nombre }}</td>
+        <td>{{ unidad.tipo }}</td>
+        <td>{{ unidad.unidadPadre?.nombre || "N/A" }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+  <!-- Modal de gestión -->
+  <app-unidad-organizacional-management
+    [(visible)]="isUnidadManagementModalVisible"
+  >
+  </app-unidad-organizacional-management>
+</div>

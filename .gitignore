@@ -1,0 +1,22 @@
+# .NET
+**/bin/
+**/obj/
+**/AppDbContextModelSnapshot.cs
+
+# User-specific files
+*.user
+*.rsuser
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Angular / Node
+**/node_modules/
+**/dist/
+**/.angular/
+
+# VSCode
+.vscode/
+
+# Otros
+Thumbs.db

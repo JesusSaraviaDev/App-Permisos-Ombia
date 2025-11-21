@@ -1,0 +1,40 @@
+<div class="autocomplete-container">
+  <p-autocomplete
+    #vcAutoCompleteUnidadOrganizacional
+    [formControl]="formControl"
+    [suggestions]="unidadesOrganizacionales()"
+    (completeMethod)="search($event)"
+    (onBlur)="markControlAsTouched()"
+    [placeholder]="placeholder()"
+    [disabled]="disabled()"
+    [dropdown]="true"
+    field="nombre"
+    [forceSelection]="false"
+    [showClear]="true"
+    [inputStyle]="{ width: '100%' }"
+    [style]="{ width: '100%' }"
+    appendTo="body"
+  >
+    <ng-template let-unidad pTemplate="item">
+      <div class="autocomplete-item">
+        <div class="autocomplete-item-main">
+          <span class="autocomplete-item-title">{{ unidad.nombre }}</span>
+          <span class="autocomplete-item-subtitle" *ngIf="unidad.tipo">{{
+            unidad.tipo
+          }}</span>
+        </div>
+      </div>
+    </ng-template>
+  </p-autocomplete>
+
+  <!-- Mensajes de validación -->
+  <small
+    *ngIf="
+      formGroup().get(controlName())?.invalid &&
+      formGroup().get(controlName())?.touched
+    "
+    class="p-error"
+  >
+    Este campo es requerido.
+  </small>
+</div>

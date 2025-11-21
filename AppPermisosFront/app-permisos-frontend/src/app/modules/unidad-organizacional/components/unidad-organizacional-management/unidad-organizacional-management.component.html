@@ -1,0 +1,105 @@
+<p-dialog
+  [(visible)]="visible"
+  [modal]="true"
+  [closable]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [style]="{ width: '50vw' }"
+  [breakpoints]="{ '960px': '75vw', '640px': '90vw' }"
+  [appendTo]="'body'"
+  header="Crear Unidad Organizacional"
+>
+  <form
+    [formGroup]="unidadOrganizacionalForm"
+    (ngSubmit)="createUnidadOrganizacional()"
+  >
+    <div class="form-grid">
+      <!-- Campo: Nombre -->
+      <div class="form-field">
+        <label for="nombre" class="form-label">
+          Nombre <span class="required">*</span>
+        </label>
+        <input
+          id="nombre"
+          type="text"
+          pInputText
+          formControlName="nombre"
+          placeholder="Ingrese el nombre"
+          class="w-full"
+          [class.ng-invalid]="f['nombre'].invalid && f['nombre'].touched"
+          [class.ng-dirty]="f['nombre'].touched"
+        />
+        <small
+          *ngIf="f['nombre'].invalid && f['nombre'].touched"
+          class="p-error"
+        >
+          <span *ngIf="f['nombre'].errors?.['required']">
+            El nombre es requerido.
+          </span>
+          <span *ngIf="f['nombre'].errors?.['minlength']">
+            El nombre debe tener al menos 3 caracteres.
+          </span>
+          <span *ngIf="f['nombre'].errors?.['maxlength']">
+            El nombre no puede exceder 100 caracteres.
+          </span>
+        </small>
+      </div>
+
+      <!-- Campo: Tipo -->
+      <div class="form-field">
+        <label for="tipo" class="form-label">
+          Tipo <span class="required">*</span>
+        </label>
+        <p-dropdown
+          id="tipo"
+          formControlName="tipo"
+          [options]="tiposUnidad"
+          placeholder="Seleccione el tipo"
+          optionLabel="label"
+          optionValue="value"
+          [style]="{ width: '100%' }"
+          [class.ng-invalid]="f['tipo'].invalid && f['tipo'].touched"
+          [class.ng-dirty]="f['tipo'].touched"
+        >
+        </p-dropdown>
+        <small *ngIf="f['tipo'].invalid && f['tipo'].touched" class="p-error">
+          El tipo es requerido.
+        </small>
+      </div>
+
+      <!-- Campo: Unidad Padre (Autocomplete) -->
+      <div class="form-field">
+        <label for="unidadPadreId" class="form-label">
+          Unidad Padre (Opcional)
+        </label>
+        <app-unidad-organizacional-autocomplete
+          [formGroup]="unidadOrganizacionalForm"
+          [controlName]="'unidadPadreId'"
+          [placeholder]="'Seleccione la unidad padre'"
+          [disabled]="false"
+        >
+        </app-unidad-organizacional-autocomplete>
+      </div>
+    </div>
+
+    <!-- Footer con botones -->
+    <div class="modal-footer">
+      <p-button
+        label="Cancelar"
+        severity="secondary"
+        (onClick)="closeModal()"
+        [disabled]="isCreating()"
+        [text]="true"
+      >
+      </p-button>
+      <p-button
+        label="Crear"
+        type="submit"
+        severity="primary"
+        [loading]="isCreating()"
+        [disabled]="isCreating()"
+      >
+      </p-button>
+    </div>
+  </form>
+</p-dialog>

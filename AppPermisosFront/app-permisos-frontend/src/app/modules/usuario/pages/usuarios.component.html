@@ -1,0 +1,77 @@
+<div class="usuarios-page">
+  <div class="page-header">
+    <h1>Usuarios</h1>
+    <p-button
+      label="Nuevo Usuario"
+      icon="pi pi-plus"
+      (onClick)="openCreateUsuarioModal()"
+    ></p-button>
+  </div>
+
+  <p-table #usuariosTable [value]="usuarios()" [paginator]="true" [rows]="10">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Id</th>
+        <th>Nombres</th>
+        <th>Apellidos</th>
+        <th>Tipo de sangre</th>
+        <th>Unidad</th>
+        <th>Ultima notificacion</th>
+        <th>Acciones</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-usuario>
+      <tr>
+        <td>{{ usuario.id }}</td>
+        <td>{{ usuario.nombres }}</td>
+        <td>{{ usuario.apellidos }}</td>
+        <td>{{ usuario.tipoDeSangre }}</td>
+        <td>{{ usuario.unidadOrganizacional?.nombre }}</td>
+        <td>{{ usuario.notificaciones[0]?.mensaje }}</td>
+        <td>
+          <p-button
+            icon="pi pi-pencil"
+            [rounded]="true"
+            [text]="true"
+            severity="info"
+            pTooltip="Cambiar unidad"
+            tooltipPosition="top"
+            (onClick)="openCambiarUnidadModal(usuario)"
+          ></p-button>
+          <p-button
+            icon="pi pi-shield"
+            [rounded]="true"
+            [text]="true"
+            severity="success"
+            pTooltip="Ver permisos"
+            tooltipPosition="top"
+            (onClick)="openPermisosUsuarioModal(usuario)"
+          ></p-button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<!-- Modal de gestión de usuarios -->
+<app-usuario-management
+  [(isUsuarioManagementModalVisible)]="isUsuarioManagementModalVisible"
+  [(usuarioManagementModalFormType)]="usuarioManagementModalFormType"
+  [selectedUsuario]="selectedUsuario()"
+  (reloadUsuarios)="reloadUsuarios($event)"
+></app-usuario-management>
+
+<!-- Modal de cambiar unidad -->
+<app-cambiar-unidad-usuario
+  [(visible)]="isCambiarUnidadModalVisible"
+  [selectedUsuario]="selectedUsuario()"
+  (reloadUsuarios)="reloadUsuarios($event)"
+>
+</app-cambiar-unidad-usuario>
+
+<!-- Modal de permisos del usuario -->
+<app-permisos-usuario
+  [(visible)]="isPermisosUsuarioModalVisible"
+  [selectedUsuario]="selectedUsuario()"
+>
+</app-permisos-usuario>

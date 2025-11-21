@@ -1,0 +1,67 @@
+<p-dialog
+  [(visible)]="visible"
+  [modal]="true"
+  [closable]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [style]="{ width: '50vw' }"
+  [breakpoints]="{ '960px': '75vw', '640px': '90vw' }"
+  [appendTo]="'body'"
+  [header]="
+    'Cambiar Unidad: ' +
+    (selectedUsuario()?.nombres || '') +
+    ' ' +
+    (selectedUsuario()?.apellidos || '')
+  "
+>
+  <form [formGroup]="cambiarUnidadForm" (ngSubmit)="cambiarUnidad()">
+    <div class="form-grid">
+      <!-- Información del usuario -->
+      <div class="usuario-info">
+        <p>
+          <strong>Usuario:</strong>
+          {{ selectedUsuario()?.nombres || "" }}
+          {{ selectedUsuario()?.apellidos || "" }}
+        </p>
+        <p>
+          <strong>Unidad Actual:</strong>
+          {{ selectedUsuario()?.unidadOrganizacional?.nombre || "N/A" }}
+        </p>
+      </div>
+
+      <!-- Campo: Nueva Unidad Organizacional -->
+      <div class="form-field">
+        <label for="unidadOrganizacionalId" class="form-label">
+          Nueva Unidad Organizacional <span class="required">*</span>
+        </label>
+        <app-unidad-organizacional-autocomplete
+          [formGroup]="cambiarUnidadForm"
+          [controlName]="'unidadOrganizacionalId'"
+          [placeholder]="'Seleccione la nueva unidad organizacional'"
+          [disabled]="false"
+        >
+        </app-unidad-organizacional-autocomplete>
+      </div>
+    </div>
+
+    <!-- Footer con botones -->
+    <div class="modal-footer">
+      <p-button
+        label="Cancelar"
+        severity="secondary"
+        (onClick)="closeModal()"
+        [disabled]="isChanging()"
+        [text]="true"
+      >
+      </p-button>
+      <p-button
+        label="Cambiar Unidad"
+        type="submit"
+        severity="primary"
+        [loading]="isChanging()"
+        [disabled]="isChanging()"
+      >
+      </p-button>
+    </div>
+  </form>
+</p-dialog>

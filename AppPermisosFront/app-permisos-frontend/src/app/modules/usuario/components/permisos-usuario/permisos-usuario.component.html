@@ -1,0 +1,68 @@
+<p-dialog
+  [(visible)]="visible"
+  [modal]="true"
+  [closable]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [style]="{ width: '60vw' }"
+  [breakpoints]="{ '960px': '80vw', '640px': '95vw' }"
+  [appendTo]="'body'"
+  [header]="
+    'Permisos de ' +
+    (selectedUsuario()?.nombres || '') +
+    ' ' +
+    (selectedUsuario()?.apellidos || '')
+  "
+>
+  <div class="permisos-content">
+    <!-- Información del usuario -->
+    <div class="usuario-info">
+      <p>
+        <strong>Usuario:</strong>
+        {{ selectedUsuario()?.nombres || "" }}
+        {{ selectedUsuario()?.apellidos || "" }}
+      </p>
+      <p>
+        <strong>Unidad:</strong>
+        {{ selectedUsuario()?.unidadOrganizacional?.nombre || "N/A" }}
+      </p>
+    </div>
+
+    <!-- Tabla de permisos -->
+    <p-table
+      [value]="permisos()"
+      [loading]="isLoading()"
+      [paginator]="true"
+      [rows]="5"
+      [rowsPerPageOptions]="[5, 10, 20]"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Id</th>
+          <th>Nombre del Permiso</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-permiso>
+        <tr>
+          <td>{{ permiso.id }}</td>
+          <td>{{ permiso.nombre }}</td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="2" class="text-center">
+            No se encontraron permisos para este usuario.
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+
+  <!-- Footer con botón -->
+  <ng-template pTemplate="footer">
+    <div class="modal-footer">
+      <p-button label="Cerrar" severity="secondary" (onClick)="closeModal()">
+      </p-button>
+    </div>
+  </ng-template>
+</p-dialog>

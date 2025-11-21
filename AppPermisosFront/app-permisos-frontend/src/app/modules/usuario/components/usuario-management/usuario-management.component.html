@@ -1,0 +1,161 @@
+<p-dialog
+  [visible]="isUsuarioManagementModalVisible()"
+  [modal]="true"
+  [closable]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [maximizable]="false"
+  styleClass="usuario-management-dialog"
+  (onHide)="handleDialogClose()"
+>
+  <ng-template pTemplate="header">
+    <div class="dialog-header">
+      <h3>
+        @if (usuarioManagementModalFormType() === modalFormTypes.CREAR) { Crear
+        Usuario } @if (usuarioManagementModalFormType() ===
+        modalFormTypes.ACTUALIZAR) { Actualizar Usuario } @if
+        (usuarioManagementModalFormType() === modalFormTypes.VISUALIZAR) {
+        Visualizar Usuario } @if (usuarioManagementModalFormType() ===
+        modalFormTypes.ELIMINAR) { Eliminar Usuario }
+      </h3>
+    </div>
+  </ng-template>
+
+  <form [formGroup]="usuarioForm" class="usuario-form">
+    <div class="form-grid">
+      <!-- Nombres -->
+      <div class="form-field">
+        <label for="nombres">Nombres <span class="required">*</span></label>
+        <input
+          pInputText
+          id="nombres"
+          formControlName="nombres"
+          placeholder="Ingrese los nombres"
+          class="w-full"
+        />
+        @if (usuarioFormControls['nombres'].invalid &&
+        usuarioFormControls['nombres'].touched) {
+        <small class="p-error">
+          @if (usuarioFormControls['nombres'].errors?.['required']) { Los
+          nombres son requeridos } @if
+          (usuarioFormControls['nombres'].errors?.['minlength']) { Debe tener al
+          menos 2 caracteres } @if
+          (usuarioFormControls['nombres'].errors?.['maxlength']) { No debe
+          exceder 100 caracteres }
+        </small>
+        }
+      </div>
+
+      <!-- Apellidos -->
+      <div class="form-field">
+        <label for="apellidos">Apellidos <span class="required">*</span></label>
+        <input
+          pInputText
+          id="apellidos"
+          formControlName="apellidos"
+          placeholder="Ingrese los apellidos"
+          class="w-full"
+        />
+        @if (usuarioFormControls['apellidos'].invalid &&
+        usuarioFormControls['apellidos'].touched) {
+        <small class="p-error">
+          @if (usuarioFormControls['apellidos'].errors?.['required']) { Los
+          apellidos son requeridos } @if
+          (usuarioFormControls['apellidos'].errors?.['minlength']) { Debe tener
+          al menos 2 caracteres } @if
+          (usuarioFormControls['apellidos'].errors?.['maxlength']) { No debe
+          exceder 100 caracteres }
+        </small>
+        }
+      </div>
+
+      <!-- Tipo de Sangre -->
+      <div class="form-field">
+        <label for="tipoDeSangre"
+          >Tipo de Sangre <span class="required">*</span></label
+        >
+        <p-dropdown
+          [options]="[
+            { label: 'A+', value: 'A+' },
+            { label: 'A-', value: 'A-' },
+            { label: 'B+', value: 'B+' },
+            { label: 'B-', value: 'B-' },
+            { label: 'AB+', value: 'AB+' },
+            { label: 'AB-', value: 'AB-' },
+            { label: 'O+', value: 'O+' },
+            { label: 'O-', value: 'O-' }
+          ]"
+          formControlName="tipoDeSangre"
+          optionLabel="label"
+          optionValue="value"
+          placeholder="Seleccione tipo de sangre"
+          [showClear]="true"
+          class="w-full"
+          appendTo="body"
+        ></p-dropdown>
+        @if (usuarioFormControls['tipoDeSangre'].invalid &&
+        usuarioFormControls['tipoDeSangre'].touched) {
+        <small class="p-error">
+          @if (usuarioFormControls['tipoDeSangre'].errors?.['required']) { El
+          tipo de sangre es requerido }
+        </small>
+        }
+      </div>
+
+      <!-- Unidad Organizacional -->
+      <div class="form-field">
+        <label for="unidadOrganizacionalId" class="form-label">
+          Unidad Organizacional <span class="required">*</span>
+        </label>
+        <app-unidad-organizacional-autocomplete
+          [formGroup]="usuarioForm"
+          [controlName]="'unidadOrganizacionalId'"
+          [placeholder]="'Seleccione la unidad organizacional'"
+          [disabled]="false"
+        >
+        </app-unidad-organizacional-autocomplete>
+      </div>
+    </div>
+  </form>
+
+  <ng-template pTemplate="footer">
+    <div class="dialog-footer">
+      <p-button
+        label="Cancelar"
+        icon="pi pi-times"
+        [outlined]="true"
+        severity="secondary"
+        (onClick)="closeUsuarioManagement()"
+      ></p-button>
+
+      @if (usuarioManagementModalFormType() !== modalFormTypes.VISUALIZAR) {
+      <p-button
+        [label]="
+          usuarioManagementModalFormType() === modalFormTypes.CREAR
+            ? 'Crear'
+            : usuarioManagementModalFormType() === modalFormTypes.ACTUALIZAR
+            ? 'Actualizar'
+            : 'Eliminar'
+        "
+        [icon]="
+          usuarioManagementModalFormType() === modalFormTypes.CREAR
+            ? 'pi pi-check'
+            : usuarioManagementModalFormType() === modalFormTypes.ACTUALIZAR
+            ? 'pi pi-save'
+            : 'pi pi-trash'
+        "
+        [severity]="
+          usuarioManagementModalFormType() === modalFormTypes.ELIMINAR
+            ? 'danger'
+            : 'primary'
+        "
+        (onClick)="submit()"
+        [loading]="isLoadingUsuarioService()"
+      ></p-button>
+      }
+    </div>
+  </ng-template>
+</p-dialog>
+
+<!-- Diálogo de confirmación -->
+<p-confirmDialog key="confirmUsuarioDialog"></p-confirmDialog>

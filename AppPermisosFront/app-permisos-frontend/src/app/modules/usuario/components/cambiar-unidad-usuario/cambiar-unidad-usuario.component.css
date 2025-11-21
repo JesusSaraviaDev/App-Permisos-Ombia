@@ -1,0 +1,48 @@
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.usuario-info {
+  padding: 1rem;
+  background-color: var(--surface-100);
+  border-radius: 6px;
+  border-left: 4px solid var(--primary-color);
+}
+
+.usuario-info p {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.95rem;
+  color: var(--text-color);
+}
+
+.usuario-info p:last-child {
+  margin-bottom: 0;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-label {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text-color);
+}
+
+.required {
+  color: #ef4444;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--surface-border);
+}

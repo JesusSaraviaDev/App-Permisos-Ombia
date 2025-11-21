@@ -1,0 +1,34 @@
+.permisos-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.usuario-info {
+  padding: 1rem;
+  background-color: var(--surface-100);
+  border-radius: 6px;
+  border-left: 4px solid var(--primary-color);
+}
+
+.usuario-info p {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.95rem;
+  color: var(--text-color);
+}
+
+.usuario-info p:last-child {
+  margin-bottom: 0;
+}
+
+.text-center {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-color-secondary);
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}

@@ -1,0 +1,54 @@
+<div class="permisos-page">
+  <div class="page-header">
+    <h1>Permisos</h1>
+    <p-button
+      label="Crear Permiso"
+      icon="pi pi-plus"
+      (onClick)="openCreatePermisoModal()"
+    ></p-button>
+  </div>
+
+  <p-table
+    #permisosTable
+    [value]="permisos()"
+    [paginator]="true"
+    [rows]="10"
+    [loading]="isLoading()"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Id</th>
+        <th>Nombre</th>
+        <th>Acciones</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-permiso>
+      <tr>
+        <td>{{ permiso.id }}</td>
+        <td>{{ permiso.nombre }}</td>
+        <td>
+          <p-button
+            icon="pi pi-share-alt"
+            [rounded]="true"
+            [text]="true"
+            severity="info"
+            pTooltip="Asignar permiso"
+            tooltipPosition="top"
+            (onClick)="openAsignarPermisoModal(permiso)"
+          ></p-button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+  <!-- Modal de gestión -->
+  <app-permiso-management [(visible)]="isPermisoManagementModalVisible">
+  </app-permiso-management>
+
+  <!-- Modal de asignar permiso -->
+  <app-asignar-permiso
+    [(visible)]="isAsignarPermisoModalVisible"
+    [selectedPermiso]="selectedPermiso()"
+  >
+  </app-asignar-permiso>
+</div>
